@@ -1,0 +1,101 @@
+<nb-card>
+  <nb-card-body>
+    <div ngfDrop selectable="1" multiple="0"
+  [(files)]="files"
+  class = "well my-drop-zone">
+  Please drop or <b>select</b> image
+</div>
+<ngfFormData
+  [files]      = "files"
+  postName     = "files"
+  [(FormData)] = "myFormData"
+></ngfFormData>
+    
+    <div *ngIf="files && files.length > 0" >
+      <h3>{{ files.length }} Queued Images</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of files;let i=index">
+        <td>
+          <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
+            <div class="previewIcon" [ngfBackground]="item"></div>
+          </div>
+          <strong>{{ item.name }}</strong>
+        </td>
+        <td nowrap>
+          {{ item.type }}
+        </td>
+        <td nowrap>
+          {{ item.size/1024/1024 | number:'.2' }} MB
+        </td>
+        <td nowrap>
+          <button type="button"
+            class="btn btn-danger btn-xs"
+            (click)="files.splice(i,1)"
+          >
+          <nb-icon icon="trash"></nb-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <button nbButton status="primary" (click)="uploadFiles(files)">Upload images</button>
+    <br/>
+    <br/>
+    </div>
+
+    <label class="search-label" for="search">Search:</label>
+    <input nbInput [nbFilterInput]="dataSource" id="search" class="search-input">
+    <button class="refresh-button" nbButton status="info" (click)="loadImages()">Refresh</button>
+
+    <!-- <img style="width: 400px;" [src]="previewImage"
+     alt="Place image title"
+     *ngIf="!isImageLoading"> -->
+
+    <table [nbTreeGrid]="dataSource" [nbSort]="dataSource" (sort)="updateSort($event)">
+
+      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+      <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+
+      <ng-container [nbTreeGridColumnDef]="customColumn">
+        <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(customColumn)" *nbTreeGridHeaderCellDef>
+          {{customColumn}}
+        </th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          <ngx-fs-icon [kind]="row.data.kind" [expanded]="row.expanded"></ngx-fs-icon>
+          {{row.data[customColumn]}}
+          <!-- <a href="" (click)="loadImage(row.data[customColumn]);false">Preview</a> -->
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let column of defaultColumns; let index = index"
+                    [nbTreeGridColumnDef]="column"
+                    [showOn]="getShowOn(index)">
+        <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(column)" *nbTreeGridHeaderCellDef>
+          {{column}}
+        </th>
+      <ng-container *ngIf="column !== 'action'">       
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column] || '-'}}</td>
+      </ng-container>  
+      <ng-container *ngIf="column === 'action'">       
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          <button type="button"
+          class="btn btn-danger btn-xs"
+          (click)="deleteImage(row.data['name'])">
+        <nb-icon icon="trash"></nb-icon>
+        </button></td>
+      </ng-container>  
+      </ng-container>
+
+    </table>
+
+  </nb-card-body>
+</nb-card>
