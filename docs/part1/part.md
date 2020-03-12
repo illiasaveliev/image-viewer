@@ -1,14 +1,16 @@
 # Part 1 – Create Image Viewer API
 
-1. Open Visual Studio
+## Create API poject
+
+1. Open **Visual Studio** and create a new project **ImageViewer.API**
 
     ![alt text](1.png)
 
-2. Select
+2. Select **AWS Serverless Application with Tests** and press **Finish**
 
     ![alt text](2.png)
 
-3. Add an ability to upload multiple images. Add the following method to the S3ProxyController
+3. Add an ability to upload multiple images. Add the following method to the **S3ProxyController**
 
     ```c#
         [HttpPost]
@@ -42,7 +44,7 @@
         }
     ```
 
-4. Modify Get method to return image tags. Replace it with the code below
+4. Modify **Get** method to return image tags. Replace it with the code below
 
     ```c#
         [HttpGet]
@@ -86,7 +88,7 @@
         }
     ```
 
-5. Add ImageModel. Create a new file Models/ImageModel.cs
+5. Add **ImageModel**. Create a new file Models/ImageModel.cs
 
     ```c#
     public class ImageModel
@@ -113,32 +115,37 @@
     using Newtonsoft.Json.Serialization;
     ```
 
-7. Enter the S3 Bucket name (AppS3Bucket) into **appsettings.json** file.
+7. Enter the S3 Bucket name **image-viewer-images** or similar unique name into **appsettings.json** file as **AppS3Bucket** value. This bucket will store images.
 8. Build the project. Check that it compiled without errors.
-9. Publish
+
+## Deploy API Project to AWS
+
+1. Select **Publish to AWS Lambda...** option in the project menu
 
     ![alt text](3.png)
 
-10. In the opened dialog enter Stack Name
+2. In the opened dialog enter **Stack Name**
 
     ![alt text](4.png)
 
-11. Create a new S3 Bucket. Press New button and come up with a unique bucket name. This bucket will be used for deployments. It will store archive with compiled binaries and CloudFormation template.
+3. Create a new S3 Bucket. Press the **New** button and come up with a unique bucket name. This bucket will be used for deployments. It will store archive with compiled binaries and CloudFormation template.
 
     ![alt text](5.png)
 
-12. Press Next button. In the new dialog enter the BucketName where images will be stored.
+4. Press the **Next** button. In the new dialog enter the **BucketName** (from the **appsettings.json** file) where images will be stored.
 
     ![alt text](6.png)
 
-13. Double check the used profile, region and other settings and press **Publish**.
-14. Check publish status. Wait for the **CREATE_COMPLETE** state.
+5. Double check the used profile, region and other settings and press **Publish**.
+6. Check publish status. Wait for the **CREATE_COMPLETE** state.
 
     ![alt text](7.png)
 
-15. Test that APIs are working.
+7. Test that APIs are working.
 
-    - Upload test image to S3. Open AWS Management Console and go to S3 service. 
-    - Select the created bucket for images. Press upload and choose any image on your computer.
-    - Look at the stack outputs in the Visual Studio and grab the created API’s url. Copy AWS Serverless URL value, add /api/s3proxy/ suffix to it and call. For example, <https://x8tvwsuzlj.execute-api.eu-west-1.amazonaws.com/Prod/api/s3proxy/>
+    - Upload test image to S3. Open **AWS Management Console** and go to **S3** service.
+    - Select the created bucket for images. Press **Upload** and choose any image on your computer.
+    - Look at the stack outputs in the Visual Studio and grab the created API’s url. Copy **AWS Serverless URL** value, add **/api/s3proxy/** suffix to it and call. For example, <https://x8tvwsuzlj.execute-api.eu-west-1.amazonaws.com/Prod/api/s3proxy/>
     - The request should return the list of uploaded S3 Images.
+
+Great, we have working APIs, then we need to secure them [Part 2 – Secure your application](../part2/part.md)

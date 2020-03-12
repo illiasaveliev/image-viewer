@@ -1,6 +1,8 @@
 # Part 4 – Add Image Viewer labeling function
 
-1. Open Visual Studio and create a new project
+## Create Image Viewer labeling function
+
+1. Open **Visual Studio** and create a new project
 
      ![alt text](1.png)
 
@@ -9,15 +11,18 @@
      ![alt text](2.png)
 
 3. Build project and check that build has no errors
-4. Open **Publish to AWS Lambda...** dialog
+
+## Deploy Image Viewer labeling function
+
+1. Open **Publish to AWS Lambda...** dialog
 
      ![alt text](3.png)
 
-5. Enter **Function Name** and press **Next**
+2. Enter **Function Name** and press **Next**
 
      ![alt text](4.png)
 
-6. Choose new role base on **AWSLambdaFullAccess** policy and press **Upload**
+3. Choose a new role base on **AWSLambdaFullAccess** policy and press **Upload**
 
 ## Configure S3 Trigger
 
@@ -47,7 +52,7 @@
 4. Press **Attach** policy
 
 5. Try to label new images.
-    - Open the Image Viewer web application and upload new image.
-    - Find new image in the table and examine created tags for it.
+    - Open the **Image Viewer** web site and upload new image.
+    - Find new image in the table and examine created tags for it. It may take some time so use a **Refresh** button to update table
 
 **Congrats!** You have completed the workshop! Do not forget to remove created resources. Follow instructions from the [Part 5 – Clean-up resources](../part5/part.md) section.
