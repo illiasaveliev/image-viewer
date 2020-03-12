@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageViewer.API", "ImageViewer.API\ImageViewer.API.csproj", "{286D0412-1EEA-40A5-AE49-4F3F67CCF350}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageViewer.API.Tests", "ImageViewer.API.Tests\ImageViewer.API.Tests.csproj", "{590F2340-94EC-46AC-BA31-555FCF2D4FAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{286D0412-1EEA-40A5-AE49-4F3F67CCF350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286D0412-1EEA-40A5-AE49-4F3F67CCF350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286D0412-1EEA-40A5-AE49-4F3F67CCF350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286D0412-1EEA-40A5-AE49-4F3F67CCF350}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590F2340-94EC-46AC-BA31-555FCF2D4FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590F2340-94EC-46AC-BA31-555FCF2D4FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590F2340-94EC-46AC-BA31-555FCF2D4FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590F2340-94EC-46AC-BA31-555FCF2D4FAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2BF44A71-DF02-4430-9A51-E384BF081ABC}
+	EndGlobalSection
+EndGlobal

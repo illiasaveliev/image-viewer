@@ -25,5 +25,5 @@ Workshop contains several parts. Please follow instructions inside the each part
 * [Part 1 – Create Image Viewer API](docs/part1/part.md)
 * [Part 2 – Secure your application](docs/part2/part.md)
 * [Part 3 – Deploy Image Viewer Web application](docs/part3/part.md)
-* [Part 4 – Add image labeling](docs/part4/part.md)
+* [Part 4 – Add Image Viewer labeling function](docs/part4/part.md)
 * [Part 5 – Clean-up resources](docs/part5/part.md)

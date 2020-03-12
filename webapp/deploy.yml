@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  BucketName:
+    Type: String
+    Default: image-viewer-web-app
+Resources:
+  OriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Sub Static assets in ${AWS::StackName}
+  S3:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      AccessControl: BucketOwnerRead
+      BucketName: !Ref BucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  S3BucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref BucketName
+      PolicyDocument:
+        Statement:
+          -
+            Action: [ "s3:GetObject" ]
+            Effect: Allow
+            Principal: 
+              CanonicalUser: !GetAtt OriginAccessIdentity.S3CanonicalUserId
+            Resource: !Sub "arn:aws:s3:::${BucketName}/*"
+  cloudfrontdistribution:
+    Type: AWS::CloudFront::Distribution
+    DependsOn: OriginAccessIdentity
+    Properties:
+      DistributionConfig:
+        DefaultCacheBehavior:
+          AllowedMethods:
+              - DELETE
+              - GET
+              - HEAD
+              - OPTIONS
+              - PATCH
+              - POST
+              - PUT
+          ForwardedValues: 
+            QueryString: true
+            Cookies:
+                Forward: all
+          ViewerProtocolPolicy: allow-all
+          TargetOriginId: !Ref OriginAccessIdentity
+        CustomErrorResponses:
+            - ErrorCode: 404
+              ResponseCode: 200
+              ResponsePagePath: /index.html
+            - ErrorCode: 403
+              ResponseCode: 200
+              ResponsePagePath: /index.html
+        Origins:
+          - 
+             S3OriginConfig:
+                OriginAccessIdentity: !Join
+                  - /
+                  - - origin-access-identity
+                    - cloudfront
+                    - !Ref OriginAccessIdentity
+             DomainName: !Sub "${BucketName}.s3.amazonaws.com"
+             OriginPath: /Deploy/build
+             Id: !Ref OriginAccessIdentity
+        DefaultRootObject: index.html
+        Enabled: true
+      Tags:
+        - Key: Env
+          Value: Dev
+Outputs:
+    WebAppCloudFrontDistributionOutput:
+      Value:
+        'Fn::GetAtt': [ cloudfrontdistribution, DomainName ]
