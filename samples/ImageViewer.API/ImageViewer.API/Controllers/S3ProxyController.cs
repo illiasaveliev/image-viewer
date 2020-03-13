@@ -148,6 +148,30 @@ namespace ImageViewer.API.Controllers
             }
         }
 
+        [HttpPost("startUpload")]
+        public ActionResult StartUpload([FromBody]ImageInfo image)
+        {
+            try
+            {
+                var pre = new GetPreSignedUrlRequest
+                {
+                    BucketName = this.BucketName,
+                    Key = image.Name,
+                    ContentType = image.ContentType,
+                    Verb = HttpVerb.PUT,
+                    Expires = DateTime.UtcNow.AddDays(1)
+                };
+
+                var url = this.S3Client.GetPreSignedURL(pre);
+                Logger.LogInformation($"Upload URL is generated for object {image.Name} to bucket {this.BucketName}.");
+                return Ok(new { url });
+            }
+            catch (AmazonS3Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpPut("{key}")]
         public async Task Put(string key)
         {

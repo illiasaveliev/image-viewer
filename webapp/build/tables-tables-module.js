@@ -1051,7 +1051,7 @@ var ngfModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nb-card>\n  <nb-card-body>\n    <div ngfDrop selectable=\"1\" multiple=\"0\"\n  [(files)]=\"files\"\n  class = \"well my-drop-zone\">\n  Please drop or <b>select</b> image\n</div>\n<ngfFormData\n  [files]      = \"files\"\n  postName     = \"files\"\n  [(FormData)] = \"myFormData\"\n></ngfFormData>\n    \n    <div *ngIf=\"files && files.length > 0\" >\n      <h3>{{ files.length }} Queued Images</h3>\n  <table class=\"table\">\n    <thead>\n      <tr>\n        <th>Name</th>\n        <th>Type</th>\n        <th>Size</th>\n        <th>Actions</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let item of files;let i=index\">\n        <td>\n          <div *ngIf=\"['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0\">\n            <div class=\"previewIcon\" [ngfBackground]=\"item\"></div>\n          </div>\n          <strong>{{ item.name }}</strong>\n        </td>\n        <td nowrap>\n          {{ item.type }}\n        </td>\n        <td nowrap>\n          {{ item.size/1024/1024 | number:'.2' }} MB\n        </td>\n        <td nowrap>\n          <button type=\"button\"\n            class=\"btn btn-danger btn-xs\"\n            (click)=\"files.splice(i,1)\"\n          >\n          <nb-icon icon=\"trash\"></nb-icon>\n          </button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n    <button nbButton status=\"primary\" (click)=\"uploadFiles(files)\">Upload images</button>\n    <br/>\n    <br/>\n    </div>\n\n    <label class=\"search-label\" for=\"search\">Search:</label>\n    <input nbInput [nbFilterInput]=\"dataSource\" id=\"search\" class=\"search-input\">\n    <button class=\"refresh-button\" nbButton status=\"info\" (click)=\"loadImages()\">Refresh</button>\n\n    <!-- <img style=\"width: 400px;\" [src]=\"previewImage\"\n     alt=\"Place image title\"\n     *ngIf=\"!isImageLoading\"> -->\n\n    <table [nbTreeGrid]=\"dataSource\" [nbSort]=\"dataSource\" (sort)=\"updateSort($event)\">\n\n      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef=\"allColumns\"></tr>\n      <tr nbTreeGridRow *nbTreeGridRowDef=\"let row; columns: allColumns\"></tr>\n\n      <ng-container [nbTreeGridColumnDef]=\"customColumn\">\n        <th nbTreeGridHeaderCell [nbSortHeader]=\"getSortDirection(customColumn)\" *nbTreeGridHeaderCellDef>\n          {{customColumn}}\n        </th>\n        <td nbTreeGridCell *nbTreeGridCellDef=\"let row\">\n          <ngx-fs-icon [kind]=\"row.data.kind\" [expanded]=\"row.expanded\"></ngx-fs-icon>\n          {{row.data[customColumn]}}\n          <!-- <a href=\"\" (click)=\"loadImage(row.data[customColumn]);false\">Preview</a> -->\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of defaultColumns; let index = index\"\n                    [nbTreeGridColumnDef]=\"column\"\n                    [showOn]=\"getShowOn(index)\">\n        <th nbTreeGridHeaderCell [nbSortHeader]=\"getSortDirection(column)\" *nbTreeGridHeaderCellDef>\n          {{column}}\n        </th>\n      <ng-container *ngIf=\"column !== 'action'\">       \n        <td nbTreeGridCell *nbTreeGridCellDef=\"let row\">{{row.data[column] || '-'}}</td>\n      </ng-container>  \n      <ng-container *ngIf=\"column === 'action'\">       \n        <td nbTreeGridCell *nbTreeGridCellDef=\"let row\">\n          <button type=\"button\"\n          class=\"btn btn-danger btn-xs\"\n          (click)=\"deleteImage(row.data['name'])\">\n        <nb-icon icon=\"trash\"></nb-icon>\n        </button></td>\n      </ng-container>  \n      </ng-container>\n\n    </table>\n\n  </nb-card-body>\n</nb-card>\n"
+module.exports = "<nb-card>\n  <nb-card-body>\n    <div ngfDrop selectable=\"1\" multiple=\"0\"\n  [(files)]=\"files\"\n  class = \"well my-drop-zone\">\n  Please drop or <b>select</b> image\n</div>\n<ngfFormData\n  [files]      = \"files\"\n  postName     = \"files\"\n  [(FormData)] = \"myFormData\"\n></ngfFormData>\n    \n    <div *ngIf=\"files && files.length > 0\" >\n      <h3>{{ files.length }} Queued Images</h3>\n  <table class=\"table\">\n    <thead>\n      <tr>\n        <th>Name</th>\n        <th>Type</th>\n        <th>Size</th>\n        <th>Actions</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let item of files;let i=index\">\n        <td>\n          <div *ngIf=\"['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0\">\n            <div class=\"previewIcon\" [ngfBackground]=\"item\"></div>\n          </div>\n          <strong>{{ item.name }}</strong>\n        </td>\n        <td nowrap>\n          {{ item.type }}\n        </td>\n        <td nowrap>\n          {{ item.size/1024/1024 | number:'.2' }} MB\n        </td>\n        <td nowrap>\n          <button type=\"button\"\n            class=\"btn btn-danger btn-xs\"\n            (click)=\"files.splice(i,1)\"\n          >\n          <nb-icon icon=\"trash\"></nb-icon>\n          </button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n    <button nbButton status=\"primary\" (click)=\"uploadFiles(files)\">Upload images</button>\n    <br/>\n    <br/>\n    </div>\n\n    <label class=\"search-label\" for=\"search\">Search:</label>\n    <input nbInput [nbFilterInput]=\"dataSource\" id=\"search\" class=\"search-input\">\n    <button class=\"refresh-button\" nbButton status=\"info\" (click)=\"loadImages()\">Refresh</button>\n\n    <!-- <img style=\"width: 400px;\" [src]=\"previewImage\"\n     alt=\"Place image title\"\n     *ngIf=\"!isImageLoading\"> -->\n\n    <table [nbTreeGrid]=\"dataSource\" [nbSort]=\"dataSource\" (sort)=\"updateSort($event)\">\n\n      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef=\"allColumns\"></tr>\n      <tr nbTreeGridRow *nbTreeGridRowDef=\"let row; columns: allColumns\"></tr>\n\n      <ng-container [nbTreeGridColumnDef]=\"customColumn\">\n        <th nbTreeGridHeaderCell [nbSortHeader]=\"getSortDirection(customColumn)\" *nbTreeGridHeaderCellDef>\n          {{customColumn}}\n        </th>\n        <td nbTreeGridCell *nbTreeGridCellDef=\"let row\">\n          <ngx-fs-icon [kind]=\"row.data.kind\" [expanded]=\"row.expanded\"></ngx-fs-icon>\n          {{row.data[customColumn]}}\n          <!-- <a href=\"\" (click)=\"loadImage(row.data[customColumn]);false\">Preview</a> -->\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of defaultColumns; let index = index\"\n                    [nbTreeGridColumnDef]=\"column\"\n                    [showOn]=\"getShowOn(index)\">\n        <th nbTreeGridHeaderCell [nbSortHeader]=\"getSortDirection(column)\" *nbTreeGridHeaderCellDef>\n          {{column}}\n        </th>\n      <ng-container *ngIf=\"column !== 'action'\">       \n        <td nbTreeGridCell *nbTreeGridCellDef=\"let row\">{{row.data[column] || '-'}}</td>\n      </ng-container>  \n      <ng-container *ngIf=\"column === 'action'\">       \n        <td nbTreeGridCell *nbTreeGridCellDef=\"let row\">\n          <button *ngIf=\"row.data['url']\" type=\"button\"\n          class=\"btn btn-danger btn-xs\"\n          (click)=\"deleteImage(row.data['name'])\">\n        <nb-icon icon=\"trash\"></nb-icon>\n        </button></td>\n      </ng-container>  \n      </ng-container>\n\n    </table>\n\n  </nb-card-body>\n</nb-card>\n"
 
 /***/ }),
 
@@ -1213,9 +1213,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _core_services_images_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../@core/services/images.service */ "./src/app/@core/services/images.service.ts");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nebular/theme */ "./node_modules/@nebular/theme/fesm5/index.js");
-
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nebular/theme */ "./node_modules/@nebular/theme/fesm5/index.js");
 
 
 
@@ -1228,21 +1226,31 @@ var TreeGridComponent = /** @class */ (function () {
         this.customColumn = 'name';
         this.defaultColumns = ['size', 'lastModified', 'items', 'action'];
         this.allColumns = [this.customColumn].concat(this.defaultColumns);
-        this.sortDirection = _nebular_theme__WEBPACK_IMPORTED_MODULE_5__["NbSortDirection"].NONE;
+        this.sortDirection = _nebular_theme__WEBPACK_IMPORTED_MODULE_4__["NbSortDirection"].NONE;
         this.isImageLoading = true;
         this.loadImages();
     }
     TreeGridComponent.prototype.uploadFiles = function (files) {
         var _this = this;
-        return this.imagesService.uploadImage(files[0].name, this.myFormData)
-            .subscribe(function (event) {
-            if (event instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpResponse"]) {
-                _this.files = undefined;
-                _this.loadImages();
-            }
-        }, function (error) {
-            alert('Upload failure:' + error.toString());
-        });
+        var _loop_1 = function (i) {
+            var info = { name: files[i].name, contentType: files[i].type };
+            this_1.imagesService.startUpload(info)
+                .subscribe(function (data) {
+                _this.imagesService.uploadToS3(data.url, info, files[i])
+                    .subscribe(function () {
+                    if (i === files.length - 1) {
+                        _this.files = undefined;
+                        _this.loadImages();
+                    }
+                }, function (error) {
+                    alert('Upload failure:' + error.error.toString());
+                });
+            });
+        };
+        var this_1 = this;
+        for (var i = 0; i < files.length; i++) {
+            _loop_1(i);
+        }
     };
     TreeGridComponent.prototype.updateSort = function (sortRequest) {
         this.sortColumn = sortRequest.column;
@@ -1252,7 +1260,7 @@ var TreeGridComponent = /** @class */ (function () {
         if (this.sortColumn === column) {
             return this.sortDirection;
         }
-        return _nebular_theme__WEBPACK_IMPORTED_MODULE_5__["NbSortDirection"].NONE;
+        return _nebular_theme__WEBPACK_IMPORTED_MODULE_4__["NbSortDirection"].NONE;
     };
     TreeGridComponent.prototype.getShowOn = function (index) {
         var minWithForMultipleColumns = 400;
@@ -1303,7 +1311,7 @@ var TreeGridComponent = /** @class */ (function () {
         }
     };
     TreeGridComponent.ctorParameters = function () { return [
-        { type: _nebular_theme__WEBPACK_IMPORTED_MODULE_5__["NbTreeGridDataSourceBuilder"] },
+        { type: _nebular_theme__WEBPACK_IMPORTED_MODULE_4__["NbTreeGridDataSourceBuilder"] },
         { type: _core_services_images_service__WEBPACK_IMPORTED_MODULE_3__["ImagesService"] }
     ]; };
     TreeGridComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1312,7 +1320,7 @@ var TreeGridComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./tree-grid.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/tables/tree-grid/tree-grid.component.html"),
             styles: [__webpack_require__(/*! ./tree-grid.component.scss */ "./src/app/pages/tables/tree-grid/tree-grid.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_nebular_theme__WEBPACK_IMPORTED_MODULE_5__["NbTreeGridDataSourceBuilder"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_nebular_theme__WEBPACK_IMPORTED_MODULE_4__["NbTreeGridDataSourceBuilder"],
             _core_services_images_service__WEBPACK_IMPORTED_MODULE_3__["ImagesService"]])
     ], TreeGridComponent);
     return TreeGridComponent;

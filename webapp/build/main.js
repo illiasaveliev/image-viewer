@@ -299,6 +299,20 @@ var ImagesService = /** @class */ (function () {
     ImagesService.prototype.deleteImage = function (name) {
         return this.http.delete(this.dataUrl + name);
     };
+    ImagesService.prototype.startUpload = function (image) {
+        return this.http.post(this.dataUrl + 'startUpload', image);
+    };
+    ImagesService.prototype.uploadToS3 = function (url, image, images) {
+        // const config = new HttpRequest('PUT', url, images, {
+        //     reportProgress: false,
+        // });
+        return this.http.put(url, images, {
+            headers: {
+                'Content-Type': image.contentType,
+            },
+            reportProgress: false,
+        });
+    };
     ImagesService.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
     ]; };
@@ -470,7 +484,7 @@ var CustomNbAuthJWTInterceptor = /** @class */ (function () {
     CustomNbAuthJWTInterceptor.prototype.intercept = function (req, next) {
         var _this = this;
         // do not intercept request whose urls are filtered by the injected filter
-        if (!this.filter(req)) {
+        if (!this.filter(req) && !this.isRequestAllowed(req)) {
             return this.authService.isAuthenticatedOrRefresh()
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["switchMap"])(function (authenticated) {
                 if (authenticated) {
@@ -501,6 +515,9 @@ var CustomNbAuthJWTInterceptor = /** @class */ (function () {
         else {
             return next.handle(req);
         }
+    };
+    CustomNbAuthJWTInterceptor.prototype.isRequestAllowed = function (req) {
+        return req.url.indexOf('x-amz-security-token') > 0;
     };
     Object.defineProperty(CustomNbAuthJWTInterceptor.prototype, "authService", {
         get: function () {
