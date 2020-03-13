@@ -10,36 +10,30 @@
 
     ![alt text](2.png)
 
-3. Add an ability to upload multiple images. Add the following method to the **S3ProxyController**
+3. Add an ability to upload images via S3. Add the following method to the **S3ProxyController**. This method generates a pre-signed url that will allow PUT request to S3 bucket.
 
     ```c#
-        [HttpPost]
-        public async Task Post(List<IFormFile> files)
+        [HttpPost("startUpload")]
+        public ActionResult StartUpload([FromBody]ImageInfo image)
         {
-            foreach (var file in files)
+            try
             {
-                var seekableStream = new MemoryStream();
-                await file.CopyToAsync(seekableStream);
-                seekableStream.Position = 0;
-
-                var putRequest = new PutObjectRequest
+                var pre = new GetPreSignedUrlRequest
                 {
                     BucketName = this.BucketName,
-                    Key = file.FileName,
-                    InputStream = seekableStream
+                    Key = image.Name,
+                    ContentType = image.ContentType,
+                    Verb = HttpVerb.PUT,
+                    Expires = DateTime.UtcNow.AddDays(1)
                 };
 
-                try
-                {
-                    var response = await this.S3Client.PutObjectAsync(putRequest);
-                    Logger.LogInformation($"Uploaded object {file.FileName} to bucket {this.BucketName}. Request Id: {response.ResponseMetadata.RequestId}");
-                }
-                catch (AmazonS3Exception e)
-                {
-                    this.Response.StatusCode = (int)e.StatusCode;
-                    var writer = new StreamWriter(this.Response.Body);
-                    writer.Write(e.Message);
-                }
+                var url = this.S3Client.GetPreSignedURL(pre);
+                Logger.LogInformation($"Upload URL is generated for object {image.Name} to bucket {this.BucketName}.");
+                return Ok(new { url });
+            }
+            catch (AmazonS3Exception e)
+            {
+                return BadRequest(e);
             }
         }
     ```
@@ -107,7 +101,17 @@
     }
     ```
 
-6. Add missing references
+6. Add **ImageInfo**. Create a new file Models/ImageInfo.cs
+
+    ```c#
+    public class ImageInfo
+    {
+        public string Name { get; set; }
+        public string ContentType { get; set; }
+    }
+    ```
+
+7. Add missing references
 
     ```c#
     using Microsoft.AspNetCore.Http;
@@ -115,8 +119,8 @@
     using Newtonsoft.Json.Serialization;
     ```
 
-7. Enter the S3 Bucket name **image-viewer-images** or similar unique name into **appsettings.json** file as **AppS3Bucket** value. This bucket will store images.
-8. Build the project. Check that it compiled without errors.
+8. Enter the S3 Bucket name **image-viewer-images** or similar unique name into **appsettings.json** file as **AppS3Bucket** value. This bucket will store images.
+9. Build the project. Check that it compiled without errors.
 
 ## Deploy API Project to AWS
 
@@ -141,7 +145,28 @@
 
     ![alt text](7.png)
 
-7. Test that APIs are working.
+## Configure CORS for S3
+
+1. Open **AWS Console** and go to the **S3** service
+2. Open bucket with images
+3. Navigate to **Permissions -> CORS configuration**
+
+    ![alt text](8.png)
+
+4. Enter the next configuration script and press **Save**
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+    <CORSRule>
+        <AllowedOrigin>*</AllowedOrigin>
+        <AllowedMethod>PUT</AllowedMethod>
+        <AllowedHeader>*</AllowedHeader>
+    </CORSRule>
+    </CORSConfiguration>
+    ```
+
+5. Test that APIs are working.
 
     - Upload test image to S3. Open **AWS Management Console** and go to **S3** service.
     - Select the created bucket for images. Press **Upload** and choose any image on your computer.

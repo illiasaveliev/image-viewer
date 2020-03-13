@@ -38,4 +38,17 @@ export class ImagesService implements ImagesData {
     deleteImage(name: string): Observable<Object> {
         return this.http.delete(this.dataUrl + name);
     }
+
+    startUpload(image: any): Observable<Object> {
+        return this.http.post(this.dataUrl + 'startUpload', image);
+    }
+
+    uploadToS3(url: string, image: any, images: any): Observable<Object> {
+        return this.http.put(url, images, {
+              headers: {
+                'Content-Type': image.contentType,
+              },
+                reportProgress: false,
+             });
+    }
 }

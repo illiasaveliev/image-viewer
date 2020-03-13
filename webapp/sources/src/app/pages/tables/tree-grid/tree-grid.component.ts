@@ -2,10 +2,6 @@ import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { ImageInfo, ImageTag } from '../../../@core/data/images';
 import { ImagesService } from '../../../@core/services/images.service';
-import { Observable, ReplaySubject, Subscription } from 'rxjs';
-import {
-  HttpResponse,
-  } from '@angular/common/http';
 import {
   NbSortDirection,
   NbSortRequest,
@@ -56,17 +52,23 @@ export class TreeGridComponent {
   }
 
 
-  uploadFiles(files: File[]): Subscription {
-    return this.imagesService.uploadImage(files[0].name, this.myFormData)
-    .subscribe(event => {
-      if (event instanceof HttpResponse) {
-        this.files = undefined;
-        this.loadImages();
-      }
-    },
-    error => {
-      alert('Upload failure:' + error.toString());
-    });
+  uploadFiles(files: File[]): void {
+    for (let i = 0; i < files.length; i++ ) {
+      const info = {name: files[i].name, contentType: files[i].type};
+      this.imagesService.startUpload(info)
+      .subscribe((data: any) => {
+        this.imagesService.uploadToS3(data.url, info, files[i])
+        .subscribe(() => {
+          if (i === files.length - 1) {
+            this.files = undefined;
+            this.loadImages();
+          }
+        },
+         error => {
+           alert('Upload failure:' + error.error.toString());
+        });
+      });
+    }
   }
 
   updateSort(sortRequest: NbSortRequest): void {

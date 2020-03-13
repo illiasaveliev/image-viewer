@@ -87,7 +87,7 @@
       </ng-container>  
       <ng-container *ngIf="column === 'action'">       
         <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          <button type="button"
+          <button *ngIf="row.data['url']" type="button"
           class="btn btn-danger btn-xs"
           (click)="deleteImage(row.data['name'])">
         <nb-icon icon="trash"></nb-icon>

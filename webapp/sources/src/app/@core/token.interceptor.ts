@@ -21,7 +21,7 @@ export class CustomNbAuthJWTInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // do not intercept request whose urls are filtered by the injected filter
-      if (!this.filter(req)) {
+      if (!this.filter(req) && !this.isRequestAllowed(req)) {
         return this.authService.isAuthenticatedOrRefresh()
           .pipe(
             switchMap(authenticated => {
@@ -55,6 +55,10 @@ export class CustomNbAuthJWTInterceptor implements HttpInterceptor {
       } else {
       return next.handle(req);
     }
+  }
+
+  private isRequestAllowed(req: HttpRequest<any>): boolean {
+    return req.url.indexOf('x-amz-security-token') > 0;
   }
 
   protected get authService(): NbAuthService {
