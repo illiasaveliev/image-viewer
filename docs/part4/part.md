@@ -18,7 +18,7 @@
 
      ![alt text](3.png)
 
-2. Enter **Function Name** and press **Next**
+2. Enter **Function Name** **image-viewer-labeling** and press **Next**
 
      ![alt text](4.png)
 

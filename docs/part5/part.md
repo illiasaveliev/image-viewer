@@ -5,7 +5,7 @@ With a help of **CloudFormation** we can clean all the created resources within 
 1. Open **AWS Console**
 2. Go to the **CloudFormation** service
 3. Delete all created stacks
-    - **image-viwer-api**
+    - **image-viewer-api**
     - **image-viewer-web-app**
     - **image-viewer-labeling-function**
 4. Go to the **Cognito User Pools** and delete **image-cognito-pool**

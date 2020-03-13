@@ -2,25 +2,26 @@
 
 ## Create required infrastructure
 
-1. Open command line in the **webapp** folder.
-2. Prepare infrastructure for Image Viewer web application using the next command. It will create **S3 Bucket** where web site files will be stored and a **CloudFront** distribution to open web site to the world.
+1. Open **webapp\deploy.yml** file and examine it. Change Default value for **BucketName** parameter to some unique name.
+2. Open command line in the **webapp** folder.
+3. Prepare infrastructure for the **Image Viewer** web application using the next command. It will create **S3 Bucket** where web site files will be stored and a **CloudFront** distribution to open web site to the world.
 
     ~~~bash
     aws cloudformation deploy --force-upload --no-fail-on-empty-changeset --stack-name "image-viewer-web-app" --template-file deploy.yml
     ~~~
 
-3. Open the **AWS Console**, go to the **CloudFormation** service. Wait until **image-viewer-web-app** stack will be in completed state.
-4. Examine outputs tab. Check the created **CloudFront domain**.
+4. Open the **AWS Console**, go to the **CloudFormation** service. Wait until **image-viewer-web-app** stack will be in the completed state.
+5. Examine outputs tab. Check the created **CloudFront domain**.
 
 ## Configure Web application
 
 1. Open **webapp\build\assets\env\environment.values.js** file
 2. Enter the next settings
-    - **serverUrl** - the newly created Image Viewer API, for example, <https://x8tvwsuzlj.execute-api.eu-west-1.amazonaws.com/Prod/api/s3proxy/>
+    - **serverUrl** - the newly created **Image Viewer API**, for example, <https://x8tvwsuzlj.execute-api.eu-west-1.amazonaws.com/Prod/api/s3proxy/>
     - **authUrl** –  go to the **Cognito User Pool** and get **Domain URL** plus add **oauth2/** suffix. For example <https://test-image.auth.eu-west-1.amazoncognito.com/oauth2/>
     - **clientId** – go to the **Cognito User Pool-> App clients** and get **App client id**
     - **clientSecret** - go to **Cognito User Pool-> App clients** and get **App client secret**
-    - **redirectUrl** – put <https://d11slzr9srg2n2.cloudfront.net/auth/callback/>
+    - **redirectUrl** – put URL to the CloudFront with **/auth/callback/** suffix, for ex. <https://d11slzr9srg2n2.cloudfront.net/auth/callback/>
 3. Deploy files to **S3** using the next command
 
     ~~~bash
@@ -35,11 +36,11 @@
 2. Add the following lines to the **appsettings.json** file
 
     ~~~json
-    "WebappRedirectUrl": "http://localhost:4200",
-    "AdditionalCorsOrigins": " https://d11slzr9srg2n2.cloudfront.net"
+    "WebappRedirectUrl": "",
+    "AdditionalCorsOrigins": "http://localhost:4200"
     ~~~
 
-3. Change **AdditionalCorsOrigins** to the created **CloudFront URL**
+3. Change **WebappRedirectUrl** value to the created **CloudFront URL**, for ex. <https://d11slzr9srg2n2.cloudfront.net>
 4. Open the **Startup** file and add **CORS** configuration
     - Add private const
 
@@ -47,7 +48,7 @@
         private const string CorsPolicyName = "CorsPolicy";
         ~~~
 
-    - In the **ConfigureServices** method add a few lines
+    - In the **ConfigureServices** method add a few lines to use allowed origins
 
         ~~~c#
         string[] corsOrigins = {
@@ -124,8 +125,8 @@ There are two options how to get access to the **Image Viewer** application
 
 1. Open **CloudFront URL** in the browser. Enter any email\password combination and press **Login**, then you will be redirected to the **Cognito login page**.
 
-2. Use created user to Sign in
+2. Use created user to **Sign in**
 
 3. Check that **Image Viewer** application works. Try to upload new images.
 
-Image Viewer web site is ready now. You can use it to manage your images. Additionaly, you can add labels in order to see what is displayed on each image. Follow the instructions from the next part [Part 4 – Add Image Viewer labeling function](../part4/part.md).
+The **Image Viewer** web site is ready now. You can use it to manage your images. Additionaly, you can add labels in order to see what is displayed on each image. Follow the instructions from the next part [Part 4 – Add Image Viewer labeling function](../part4/part.md).

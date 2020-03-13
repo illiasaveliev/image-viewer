@@ -2,13 +2,13 @@
 
 ## Create a Cognito User Pool
 
-1. Create a new **Cognito User Pool** by navigating to **Cognito** service in the **AWS Console** and choose **Manage User Pools** option
+1. Create a new **Cognito User Pool** by navigating to the **Cognito** service in the **AWS Console** and choose **Manage User Pools** option
 2. Press **Create** a user pool button
 3. At the **New User Pool** screen:
 
     ![alt text](1.png)
 
-    - Enter a user pool name *image-viewer-pool*.
+    - Enter a user pool name **image-viewer-pool**
     - Click **Review defaults**
     - Leave everything by default and press **Create** pool
 
@@ -50,7 +50,7 @@
 
 4. Enter the next settings
     - Name - any name, for ex. CognitoImageViewerAuthorizer
-    - Type – Cognito
+    - Type – **Cognito**
     - Cognito User Pool – select **image-viewer-pool**
     - Token Source – **Authorization**
     - Token Validation – leave blank
@@ -70,7 +70,7 @@
      ![alt text](7.png)
 
 3. Refresh the web page in order to load new authorizers, just press F5. Then go to the **Method Request** settings
-4. Select the corresponding Cognito authorizer and save changes.
+4. Select the corresponding **Cognito authorizer** and **save** changes.
 
      ![alt text](8.png)
 

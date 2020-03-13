@@ -111,7 +111,7 @@
     }
     ```
 
-7. Add missing references
+7. Add missing references to the **S3ProxyController**
 
     ```c#
     using Microsoft.AspNetCore.Http;
@@ -128,11 +128,11 @@
 
     ![alt text](3.png)
 
-2. In the opened dialog enter **Stack Name**
+2. In the opened dialog enter **Stack Name** for example **image-viewer-api**
 
     ![alt text](4.png)
 
-3. Create a new S3 Bucket. Press the **New** button and come up with a unique bucket name. This bucket will be used for deployments. It will store archive with compiled binaries and CloudFormation template.
+3. Create a new S3 Bucket. Press the **New** button and come up with a unique bucket name, e.g. **image-viewer-code**. This bucket will be used for deployments. It will store archive with compiled binaries and CloudFormation template.
 
     ![alt text](5.png)
 
@@ -168,9 +168,9 @@
 
 5. Test that APIs are working.
 
-    - Upload test image to S3. Open **AWS Management Console** and go to **S3** service.
+    - Upload test image to S3. Open **AWS Management Console** and go to the **S3** service.
     - Select the created bucket for images. Press **Upload** and choose any image on your computer.
     - Look at the stack outputs in the Visual Studio and grab the created API’s url. Copy **AWS Serverless URL** value, add **/api/s3proxy/** suffix to it and call. For example, <https://x8tvwsuzlj.execute-api.eu-west-1.amazonaws.com/Prod/api/s3proxy/>
-    - The request should return the list of uploaded S3 Images.
+    - The request should return the list of uploaded S3 images.
 
 Great, we have working APIs, then we need to secure them [Part 2 – Secure your application](../part2/part.md)
