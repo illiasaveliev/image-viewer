@@ -17,7 +17,13 @@
     aws s3 cp ImageViewer.API.zip s3://image-viewer-code/
     ```
 
-6. Deploy API using command. Change BucketName
+6. Open **api.template** file and change bucket name with source code in the next line
+
+    ```json
+    "CodeUri": "s3://image-viewer-code/ImageViewer.API.zip",
+    ```
+
+7. Deploy API using command. Change BucketName
 
    ```bash
     aws cloudformation deploy --force-upload --no-fail-on-empty-changeset --stack-name 'image-viewer-api' --template-file api.template --capabilities CAPABILITY_NAMED_IAM --parameter-overrides BucketName="image-viewer-images333" ShouldCreateBucket="true"
