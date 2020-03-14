@@ -28,3 +28,17 @@
    ```bash
     aws cloudformation deploy --force-upload --no-fail-on-empty-changeset --stack-name 'image-viewer-api' --template-file api.template --capabilities CAPABILITY_NAMED_IAM --parameter-overrides BucketName="image-viewer-images333" ShouldCreateBucket="true"
    ```
+
+## Deploy Image Viewer Labeling function
+
+1. Copy source code file to **S3**. Note change bucket name to that you have created
+
+    ```bash
+    aws s3 cp ImageViewer.Labeling.zip s3://image-viewer-code/
+    ```
+
+2. Deploy API using command. Change BucketName
+
+    ```bash
+    aws cloudformation deploy --force-upload --no-fail-on-empty-changeset --stack-name 'image-viewer-labeling' --template-file labeling.yml --capabilities CAPABILITY_NAMED_IAM --parameter-overrides BucketName="image-viewer-code" CodeKey="ImageViewer.Labeling.zip"
+    ```

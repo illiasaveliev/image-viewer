@@ -1,0 +1,25 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Parameters:
+  ServiceName:
+    Type: String
+    Default: image-labeling
+  BucketName:
+    Type: String
+  CodeKey:
+    Type: String
+    Description: '''code-path/file.zip'' format to lambda code package'
+Resources:
+    LabelingLambda:
+      Type: AWS::Serverless::Function
+      Properties:
+          FunctionName: !Sub "${ServiceName}-function"
+          Handler: ImageViewer.Labeling::ImageViewer.Labeling.Function::FunctionHandler
+          Runtime: dotnetcore2.1
+          CodeUri:
+            Bucket: !Ref BucketName
+            Key: !Ref CodeKey
+          Description: Labeling function
+          MemorySize: 256
+          Timeout: 100
+          Policies:
+           - AWSLambdaFullAccess
