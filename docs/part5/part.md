@@ -8,5 +8,6 @@ With a help of **CloudFormation** we can clean all the created resources within 
     - **image-viewer-api**
     - **image-viewer-web-app**
     - **image-viewer-labeling-function**
-4. Go to the **Cognito User Pools** and delete **image-cognito-pool**
-5. Go to the **S3** and check that all test buckets were removed.
+4. Go to the **Lambda** service and check that all resources were deleted, if no please delete them manually
+5. Go to the **Cognito User Pools** and delete **image-cognito-pool**
+6. Go to the **S3** and check that all test buckets were removed.

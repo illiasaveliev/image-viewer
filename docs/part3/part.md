@@ -19,8 +19,8 @@
 2. Enter the next settings
     - **serverUrl** - the newly created **Image Viewer API**, for example, <https://x8tvwsuzlj.execute-api.eu-west-1.amazonaws.com/Prod/api/s3proxy/>
     - **authUrl** –  go to the **Cognito User Pool** and get **Domain URL** plus add **oauth2/** suffix. For example <https://test-image.auth.eu-west-1.amazoncognito.com/oauth2/>
-    - **clientId** – go to the **Cognito User Pool-> App clients** and get **App client id**
-    - **clientSecret** - go to **Cognito User Pool-> App clients** and get **App client secret**
+    - **clientId** – go to the **Cognito User Pool -> General settings -> App clients** and get **App client id**
+    - **clientSecret** - go to **Cognito User Pool -> General settings -> App clients** and get **App client secret**
     - **redirectUrl** – put URL to the CloudFront with **/auth/callback/** suffix, for ex. <https://d11slzr9srg2n2.cloudfront.net/auth/callback/>
 3. Deploy files to **S3** using the next command
 
