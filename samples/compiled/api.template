@@ -12,9 +12,19 @@
       ],
       "Description": "If true then the S3 bucket that will be proxied will be created with the CloudFormation stack."
     },
-    "BucketName": {
+    "ImageBucketName": {
       "Type": "String",
-      "Description": "Name of S3 bucket that will be proxied. If left blank a name will be generated.",
+      "Description": "Name of S3 bucket where images will be stored.",
+      "MinLength": "0"
+    },
+    "CodeBucketName": {
+      "Type": "String",
+      "Description": "Name of S3 bucket that will be proxied.",
+      "MinLength": "0"
+    },
+    "CodeKey": {
+      "Type": "String",
+      "Description": "Name of S3 bucket that will be proxied.",
       "MinLength": "0"
     }
   },
@@ -30,7 +40,7 @@
     "BucketNameGenerated": {
       "Fn::Equals": [
         {
-          "Ref": "BucketName"
+          "Ref": "ImageBucketName"
         },
         ""
       ]
@@ -43,7 +53,14 @@
       "Properties": {
         "Handler": "ImageViewer.API::ImageViewer.API.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnetcore2.1",
-        "CodeUri": "s3://image-viewer-code/ImageViewer.API.zip",
+        "CodeUri": {          
+          "Bucket": {
+            "Ref": "CodeBucketName"
+          },
+          "Key": {
+            "Ref": "CodeKey"
+          }
+        },
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,
@@ -59,7 +76,7 @@
                   "Ref": "Bucket"
                 },
                 {
-                  "Ref": "BucketName"
+                  "Ref": "ImageBucketName"
                 }
               ]
             }
@@ -95,7 +112,7 @@
               "Ref": "AWS::NoValue"
             },
             {
-              "Ref": "BucketName"
+              "Ref": "ImageBucketName"
             }
           ]
         }
@@ -118,7 +135,7 @@
             "Ref": "Bucket"
           },
           {
-            "Ref": "BucketName"
+            "Ref": "ImageBucketName"
           }
         ]
       }
