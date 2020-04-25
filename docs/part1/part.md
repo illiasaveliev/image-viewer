@@ -38,7 +38,7 @@
         }
     ```
 
-4. Modify **Get** method to return image tags. Replace it with the code below
+4. For **VS 2017**. Modify **Get** method to return image tags. Replace it with the code below
 
     ```c#
         [HttpGet]
@@ -82,7 +82,50 @@
         }
     ```
 
-5. Add **ImageModel**. Create a new file Models/ImageModel.cs
+5. For **VS 2019**. Modify **Get** method to return image tags. Replace it with the code below
+
+    ```c#
+        [HttpGet]
+        public async Task<JsonResult> Get()
+        {
+            var listResponse = await this.S3Client.ListObjectsV2Async(new ListObjectsV2Request
+            {
+                BucketName = this.BucketName
+            });
+
+            try
+            {
+                this.Response.ContentType = "text/json";
+                List<ImageModel> images = new List<ImageModel>();
+                foreach(var obj in listResponse.S3Objects)
+                {
+                    var getTagsResponse = await this.S3Client.GetObjectTaggingAsync(new GetObjectTaggingRequest
+                    {
+                        BucketName = this.BucketName,
+                        Key = obj.Key
+                    });
+                    images.Add(new ImageModel
+                    {
+                        Key = obj.Key,
+                        ETag = obj.ETag,
+                        LastModified = obj.LastModified,
+                        Size = obj.Size,
+                        Tags = getTagsResponse.Tagging.Select(t => new ImageTag { Tag = t.Key, Value = t.Value })
+                        .OrderByDescending(t => t.Value).ToList()
+                    });
+                }
+
+                return new JsonResult(images);
+            }
+            catch(AmazonS3Exception e)
+            {
+                this.Response.StatusCode = (int)e.StatusCode;
+                return new JsonResult(e.Message);
+            }
+        }
+    ```
+
+6. Add **ImageModel**. Create a new file Models/ImageModel.cs
 
     ```c#
     public class ImageModel
@@ -101,7 +144,7 @@
     }
     ```
 
-6. Add **ImageInfo**. Create a new file Models/ImageInfo.cs
+7. Add **ImageInfo**. Create a new file Models/ImageInfo.cs
 
     ```c#
     public class ImageInfo
@@ -111,7 +154,7 @@
     }
     ```
 
-7. Add missing references to the **S3ProxyController**
+8. Add missing references to the **S3ProxyController**
 
     ```c#
     using Microsoft.AspNetCore.Http;
@@ -119,8 +162,8 @@
     using Newtonsoft.Json.Serialization;
     ```
 
-8. Enter the S3 Bucket name **image-viewer-images** or similar unique name into **appsettings.json** file as **AppS3Bucket** value. This bucket will store images.
-9. Build the project. Check that it compiled without errors.
+9. Enter the S3 Bucket name **image-viewer-images** or similar unique name into **appsettings.json** file as **AppS3Bucket** value. This bucket will store images.
+10. Build the project. Check that it compiled without errors.
 
 ## Deploy API Project to AWS
 
