@@ -37,7 +37,7 @@
 
 ## Add permissions to call AWS Rekognition service
 
-1. Scroll to the Lambda **Execution Role** section and press **View the .. role** on the IAM console.
+1. Select **Configuration** part and then **Permissions** tab. In the **Execution Role** section press on role name and go to the IAM console.
 
      ![alt text](6.png)
 

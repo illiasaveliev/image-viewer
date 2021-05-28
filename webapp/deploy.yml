@@ -63,7 +63,7 @@ Resources:
                   - - origin-access-identity
                     - cloudfront
                     - !Ref OriginAccessIdentity
-             DomainName: !Sub "${BucketName}.s3.amazonaws.com"
+             DomainName: !Sub "${BucketName}.s3.${AWS::Region}.amazonaws.com"
              OriginPath: /Deploy/build
              Id: !Ref OriginAccessIdentity
         DefaultRootObject: index.html

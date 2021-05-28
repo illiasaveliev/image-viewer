@@ -125,7 +125,7 @@
         }
     ```
 
-6. Add **ImageModel**. Create a new file Models/ImageModel.cs
+6. Add **ImageModel**. Create a new file **Models/ImageModel.cs**
 
     ```c#
     public class ImageModel
@@ -144,7 +144,7 @@
     }
     ```
 
-7. Add **ImageInfo**. Create a new file Models/ImageInfo.cs
+7. Add **ImageInfo**. Create a new file **Models/ImageInfo.cs**
 
     ```c#
     public class ImageInfo
@@ -192,26 +192,28 @@
 
 1. Open **AWS Console** and go to the **S3** service
 2. Open bucket with images
-3. Navigate to **Permissions -> CORS configuration**
-
-    ![alt text](8.png)
-
+3. Navigate to **Permissions -> CORS section**
 4. Enter the next configuration script and press **Save**
 
-    ```xml
-    <?xml version="1.0" encoding="UTF-8"?>
-    <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-    <CORSRule>
-        <AllowedOrigin>*</AllowedOrigin>
-        <AllowedMethod>PUT</AllowedMethod>
-        <AllowedHeader>*</AllowedHeader>
-    </CORSRule>
-    </CORSConfiguration>
+    ```json
+    [{
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "PUT",
+            "POST"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }]
     ```
 
 5. Test that APIs are working.
 
-    - Upload test image to S3. Open **AWS Management Console** and go to the **S3** service.
+    - Upload test image to **S3**. Open **AWS Management Console** and go to the **S3** service.
     - Select the created bucket for images. Press **Upload** and choose any image on your computer.
     - Look at the stack outputs in the Visual Studio and grab the created API’s url. Copy **AWS Serverless URL** value, add **/api/s3proxy/** suffix to it and call. For example, <https://x8tvwsuzlj.execute-api.eu-west-1.amazonaws.com/Prod/api/s3proxy/>
     - The request should return the list of uploaded S3 images.

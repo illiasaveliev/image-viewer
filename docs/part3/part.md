@@ -48,7 +48,7 @@
         private const string CorsPolicyName = "CorsPolicy";
         ~~~
 
-    - In the **ConfigureServices** method add a few lines to use allowed origins
+    - In the **ConfigureServices** method add a few lines before AddControllers() method to use allowed origins
 
         ~~~c#
         string[] corsOrigins = {
@@ -67,7 +67,7 @@
         });
         ~~~
 
-    - In the **Configure** method
+    - In the **Configure** method add the next line after routing configuration
 
         ~~~c#
         app.UseCors(CorsPolicyName);
