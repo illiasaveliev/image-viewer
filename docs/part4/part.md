@@ -45,13 +45,15 @@
 
      ![alt text](7.png)
 
-3. Select **AWSRekognitionFullAccess**
+3. Select **AmazonRekognitionFullAccess**
 
      ![alt text](8.png)
 
 4. Press **Attach** policy
 
-5. Try to label new images.
+5. Use the same steps to attach **AmazonS3FullAccess** policy
+
+6. Try to label new images.
     - Open the **Image Viewer** web site and upload new image.
     - Find new image in the table and examine created tags for it. It may take some time so use a **Refresh** button to update table
 

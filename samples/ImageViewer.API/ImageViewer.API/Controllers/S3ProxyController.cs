@@ -12,9 +12,6 @@ using ImageViewer.API.Models;
 using Amazon.S3;
 using Amazon.S3.Model;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace ImageViewer.API.Controllers
 {
     /// <summary>
@@ -23,6 +20,7 @@ namespace ImageViewer.API.Controllers
     [Route("api/[controller]")]
     public class S3ProxyController : Controller
     {
+
         IAmazonS3 S3Client { get; set; }
         ILogger Logger { get; set; }
 
@@ -32,7 +30,6 @@ namespace ImageViewer.API.Controllers
         {
             this.Logger = logger;
             this.S3Client = s3Client;
-
             this.BucketName = configuration[Startup.AppS3BucketKey];
             if(string.IsNullOrEmpty(this.BucketName))
             {
@@ -73,11 +70,7 @@ namespace ImageViewer.API.Controllers
                     });
                 }
 
-                return new JsonResult(images, new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented,
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
+                return new JsonResult(images);
             }
             catch (AmazonS3Exception e)
             {

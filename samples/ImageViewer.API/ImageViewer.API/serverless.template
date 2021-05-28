@@ -42,13 +42,14 @@
       "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "ImageViewer.API::ImageViewer.API.LambdaEntryPoint::FunctionHandlerAsync",
-        "Runtime": "dotnetcore2.1",
+        "Runtime": "dotnetcore3.1",
         "CodeUri": "",
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,
         "Policies": [
-          "AWSLambdaFullAccess"
+          "AWSLambda_FullAccess",
+          "AmazonS3FullAccess"
         ],
         "Environment": {
           "Variables": {

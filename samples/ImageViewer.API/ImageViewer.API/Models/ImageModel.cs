@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ImageViewer.API.Models
 {
     public class ImageModel
     {
+        public ImageModel()
+        {
+            Tags = new List<ImageTag>();
+        }
+
+        public string Id { get; set; }
         public string Key { get; set; }
         public long Size { get; set; }
         public DateTime LastModified { get; set; }

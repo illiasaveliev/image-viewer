@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Amazon.Lambda.Core;
 using Amazon.Lambda.S3Events;
-
-
 using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
-
 using Amazon.S3;
 using Amazon.S3.Model;
 
@@ -22,6 +18,7 @@ namespace ImageViewer.Labeling
 {
     public class Function
     {
+
         /// <summary>
         /// The default minimum confidence used for detecting labels.
         /// </summary>
@@ -31,14 +28,13 @@ namespace ImageViewer.Labeling
         /// The name of the environment variable to set which will override the default minimum confidence level.
         /// </summary>
         public const string MIN_CONFIDENCE_ENVIRONMENT_VARIABLE_NAME = "MinConfidence";
-
-        IAmazonS3 S3Client { get; }
-
+        
         IAmazonRekognition RekognitionClient { get; }
 
         float MinConfidence { get; set; } = DEFAULT_MIN_CONFIDENCE;
 
         HashSet<string> SupportedImageTypes { get; } = new HashSet<string> { ".png", ".jpg", ".jpeg" };
+        IAmazonS3 S3Client { get; }
 
         /// <summary>
         /// Default constructor used by AWS Lambda to construct the function. Credentials and Region information will
@@ -50,10 +46,12 @@ namespace ImageViewer.Labeling
         public Function()
         {
             this.S3Client = new AmazonS3Client();
+
             this.RekognitionClient = new AmazonRekognitionClient();
 
             var environmentMinConfidence = System.Environment.GetEnvironmentVariable(MIN_CONFIDENCE_ENVIRONMENT_VARIABLE_NAME);
-            if(!string.IsNullOrWhiteSpace(environmentMinConfidence))
+            
+            if (!string.IsNullOrWhiteSpace(environmentMinConfidence))
             {
                 float value;
                 if(float.TryParse(environmentMinConfidence, out value))
@@ -80,7 +78,6 @@ namespace ImageViewer.Labeling
         /// <param name="minConfidence"></param>
         public Function(IAmazonS3 s3Client, IAmazonRekognition rekognitionClient, float minConfidence)
         {
-            this.S3Client = s3Client;
             this.RekognitionClient = rekognitionClient;
             this.MinConfidence = minConfidence;
         }
@@ -141,6 +138,7 @@ namespace ImageViewer.Labeling
                             TagSet = tags
                         }
                     });
+
                 }
                 return;
             }

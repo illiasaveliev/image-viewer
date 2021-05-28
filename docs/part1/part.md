@@ -202,7 +202,8 @@
         ],
         "AllowedMethods": [
             "PUT",
-            "POST"
+            "POST",
+            "DELETE"
         ],
         "AllowedOrigins": [
             "*"
