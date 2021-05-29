@@ -22,7 +22,7 @@
     - **clientId** – go to the **Cognito User Pool -> General settings -> App clients** and get **App client id**
     - **clientSecret** - go to **Cognito User Pool -> General settings -> App clients** and get **App client secret**
     - **redirectUrl** – put URL to the CloudFront with **/auth/callback/** suffix, for ex. <https://d11slzr9srg2n2.cloudfront.net/auth/callback/>
-3. Deploy files to **S3** using the next command
+3. Deploy files to **S3** using the next command. Replace **image-viewer-web-app** with your bucket name
 
     ~~~bash
     aws s3 sync --cache-control 'no-cache' build/ s3://image-viewer-web-app/Deploy/build

@@ -159,7 +159,6 @@
     ```c#
     using Microsoft.AspNetCore.Http;
     using ImageViewer.API.Models;
-    using Newtonsoft.Json.Serialization;
     ```
 
 9. Enter the S3 Bucket name **image-viewer-images** or similar unique name into **appsettings.json** file as **AppS3Bucket** value. This bucket will store images.

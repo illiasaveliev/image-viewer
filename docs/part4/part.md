@@ -53,7 +53,9 @@
 
 5. Use the same steps to attach **AmazonS3FullAccess** policy
 
-6. Try to label new images.
+6. Use the same steps to attach **AWSLambdaBasicExecutionRole** policy
+
+7. Try to label new images.
     - Open the **Image Viewer** web site and upload new image.
     - Find new image in the table and examine created tags for it. It may take some time so use a **Refresh** button to update table
 
